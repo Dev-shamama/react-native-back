@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
   data: [
     {
       key: {
@@ -20,7 +24,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create a User model based on the schema
-const User = mongoose.model('User', userSchema);
+const Task = mongoose.model('Task', userSchema);
 
 // Export the User model
-module.exports = User;
+module.exports = Task;
