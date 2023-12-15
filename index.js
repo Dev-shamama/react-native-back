@@ -28,8 +28,12 @@ cloudinary.config({
 
 //** APIs Router
 app.get('/api/v1/get', isAuthenticatedUser, async (req, res) => {
-  const data = await Task.find({userId: req.user._id});
-  res.json({success: true, data});
+  try {
+    const data = await Task.find({userId: req.user._id});
+    res.json({success: true, data});
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.post('/api/v1/save', isAuthenticatedUser, async (req, res) => {
@@ -52,7 +56,9 @@ app.post('/api/v1/save', isAuthenticatedUser, async (req, res) => {
 
 //** Register
 app.post('/api/v1/register', async (req, res) => {
+ try {
   const {name, email, password, gender} = req.body;
+  console.log(req.body)
   const user = await User.find({email});
   if (user.length > 0) {
     return res.json({success: false, message: 'Email is already exist'});
@@ -82,6 +88,9 @@ app.post('/api/v1/register', async (req, res) => {
   });
   await data.save();
   res.json({success: true, message: 'Account Create Successfully'});
+ } catch (error) {
+  res.json({error})
+ }
 });
 
 //** Login
