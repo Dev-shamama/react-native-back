@@ -57,22 +57,24 @@ app.post('/api/v1/save', isAuthenticatedUser, async (req, res) => {
 
 //** Register
 
-
 app.post('/api/v1/register', async (req, res) => {
   try {
     const {name, email, password, gender} = req.body;
+    console.log(req.body);
+    res.json({success: true, data: req.body });
+
     const user = await User.find({email});
     if (user.length > 0) {
       return res.json({success: false, message: 'Email is already exist'});
     }
 
-    const opts = {
-      folder: 'reactnative',
-      width: 150,
-      crop: 'scale',
-      overwrite: true,
-      invalidate: true,
-    };
+    // const opts = {
+    //   folder: 'reactnative',
+    //   width: 150,
+    //   crop: 'scale',
+    //   overwrite: true,
+    //   invalidate: true,
+    // };
 
     // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, opts);
 
@@ -83,10 +85,6 @@ app.post('/api/v1/register', async (req, res) => {
       email,
       password: hash,
       gender,
-      avatar: {
-        public_id: "myCloud.public_id",
-        url: "myCloud.secure_url",
-      },
     });
     await data.save();
     res.json({success: true, message: 'Account Create Successfully'});
