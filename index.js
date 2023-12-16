@@ -60,24 +60,11 @@ app.post('/api/v1/save', isAuthenticatedUser, async (req, res) => {
 app.post('/api/v1/register', async (req, res) => {
   try {
     const {name, email, password, gender} = req.body;
-    console.log(req.body);
-    res.json({success: true, data: req.body });
 
     const user = await User.find({email});
     if (user.length > 0) {
       return res.json({success: false, message: 'Email is already exist'});
     }
-
-    // const opts = {
-    //   folder: 'reactnative',
-    //   width: 150,
-    //   crop: 'scale',
-    //   overwrite: true,
-    //   invalidate: true,
-    // };
-
-    // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, opts);
-
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     const data = new User({
