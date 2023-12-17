@@ -117,6 +117,11 @@ app.post('/api/v1/login', async (req, res) => {
   }
 });
 
+app.get('/api/v1/me', isAuthenticatedUser, async (req, res) => {
+  const data = await User.findById(req.user._id);
+  res.json({success: true, data});
+});
+
 //** Profile Update
 app.post(
   '/api/v1/user/updateprofile',
