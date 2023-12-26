@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary');
+var cors = require('cors')
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const connectDB = require('./db/db');
@@ -12,6 +13,10 @@ require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 const secret_key = process.env.SECRET_KEY;
+
+app.use(cors({
+  origin: '*'
+}));
 
 //** Database Connection
 connectDB();
@@ -118,7 +123,7 @@ app.post('/api/v1/login', async (req, res) => {
 });
 
 app.get('/api/v1/me', isAuthenticatedUser, async (req, res) => {
-  const data = await User.findById(req.user._id);
+  const data = await User.findById(req.user._id).select('-password');
   res.json({success: true, data});
 });
 
