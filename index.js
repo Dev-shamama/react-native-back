@@ -182,16 +182,20 @@ app.post(
 
 app.post('/api/v1/test', async (req, res) => {
   try {
-    const orders = req.body; // Expecting an array of orders in the request body
+    const orders = req.body; // Expecting array of orders in the request body
 
-    // Save each order to the database
-    await Order.insertMany(orders);
+    // Save each order in MongoDB
+    for (const orderData of orders) {
+      const order = new Order(orderData); // Create a new Order instance with the data
+      await order.save(); // Save the order to the database
+    }
 
-    res.status(201).send('Orders saved successfully');
+    res.status(200).send('Orders saved successfully');
   } catch (error) {
-    console.error('Error saving orders:', error);
+    console.error(error);
     res.status(500).send('Error saving orders');
   }
+
 });
 
 
