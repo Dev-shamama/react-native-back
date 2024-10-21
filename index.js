@@ -8,6 +8,7 @@ const connectDB = require('./db/db');
 const Task = require('./model/Task');
 const User = require('./model/User');
 const { isAuthenticatedUser } = require('./middleware/auth');
+const Order = require('./model/User');
 const app = express();
 require('dotenv').config();
 
@@ -178,8 +179,25 @@ app.post(
 );
 
 
-app.get('/api/v1/test', async (req, res) => {
-  res.json({ success: true, data: "Welcome" });
+
+app.post('/api/v1/test', async (req, res) => {
+  try {
+    const orders = req.body; // Expecting an array of orders in the request body
+
+    // Save each order to the database
+    await Order.insertMany(orders);
+
+    res.status(201).send('Orders saved successfully');
+  } catch (error) {
+    console.error('Error saving orders:', error);
+    res.status(500).send('Error saving orders');
+  }
+});
+
+
+app.get('/api/v1/test/get', async (req, res) => {
+  const order = await Order.find();
+  res.status(200).json({ order });
 
 });
 
