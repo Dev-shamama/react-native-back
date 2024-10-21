@@ -1,46 +1,39 @@
 const mongoose = require('mongoose');
 
-// Define the main order schema directly, embedding the address and line items within it
+// Define schema for address
+const addressSchema = new mongoose.Schema({
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+  address_1: { type: String, required: true },
+  address_2: { type: String },
+  city: { type: String, required: true },
+  postcode: { type: String, required: true },
+  country: { type: String, required: true },
+  state: { type: String, required: true }
+});
+
+// Define schema for items
+const itemSchema = new mongoose.Schema({
+  product_name: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  subtotal: { type: Number, required: true },
+  total: { type: Number, required: true },
+  sku: { type: String, required: false }
+});
+
+// Define schema for order
 const orderSchema = new mongoose.Schema({
-    id: Number,
-    date: String,
-    status: String,
-    total: String,
-
-    // Billing and shipping addresses are directly embedded
-    billing: {
-        first_name: String,
-        last_name: String,
-        email: String,
-        phone: String,
-        address_1: String,
-        address_2: String,
-        city: String,
-        state: String,
-        postcode: String,
-        country: String
-    },
-    
-    shipping: {
-        first_name: String,
-        last_name: String,
-        address_1: String,
-        address_2: String,
-        city: String,
-        state: String,
-        postcode: String,
-        country: String
-    },
-
-    // Line items array embedded directly within the order schema
-    line_items: [
-        {
-            product_id: Number,
-            product_name: String,
-            quantity: Number,
-            price: String
-        }
-    ]
+  order_id: { type: Number, required: true, unique: true },
+  total: { type: Number, required: true },
+  status: { type: String, required: true },
+  date: { type: Date, required: true },
+  customer_name: { type: String, required: true },
+  customer_email: { type: String, required: true },
+  billing_address: addressSchema,
+  shipping_address: addressSchema,
+  items: [itemSchema],
+  store_name: { type: String, required: true },
+  store_url: { type: String, required: true }
 });
 
 // Create the Order model
