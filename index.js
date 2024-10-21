@@ -8,7 +8,7 @@ const connectDB = require('./db/db');
 const Task = require('./model/Task');
 const User = require('./model/User');
 const { isAuthenticatedUser } = require('./middleware/auth');
-const Order = require('./model/User');
+const Order = require('./model/Order');
 const app = express();
 require('dotenv').config();
 
