@@ -184,11 +184,32 @@ app.post('/api/v1/test', async (req, res) => {
   try {
     const orders = req.body; // Expecting array of orders in the request body
 
-    // Save each order in MongoDB
-    for (const orderData of orders) {
-      const order = new Order(orderData); // Create a new Order instance with the data
-      await order.save(); // Save the order to the database
+    const StoreExist = await Order.find({ store_name: orders[0].store_name })
+
+    if (!StoreExist) {
+      // Save each order in MongoDB
+      for (const orderData of orders) {
+        const order = new Order(orderData); // Create a new Order instance with the data
+        await order.save(); // Save the order to the database
+      }
+    } else {
+      return res.status(200).send('Orders already updated');
     }
+
+    res.status(200).send('Orders saved successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error saving orders');
+  }
+});
+
+app.post('/api/v1/testsingle', async (req, res) => {
+  try {
+    const orders = req.body; // Expecting array of orders in the request body
+    console.log(orders);
+    // Save each order in MongoDB
+    const order = new Order(orders); // Create a new Order instance with the data
+    await order.save(); // Save the order to the database
 
     res.status(200).send('Orders saved successfully');
   } catch (error) {
@@ -197,6 +218,7 @@ app.post('/api/v1/test', async (req, res) => {
   }
 
 });
+
 
 
 app.get('/api/v1/test/get', async (req, res) => {

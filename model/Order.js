@@ -5,10 +5,8 @@ const orderSchema = new mongoose.Schema({
     total: { type: Number, required: true },
     status: { type: String, required: true },
     date: { type: Date, required: true },
-    customer: {
-      name: { type: String, required: true },
-      email: { type: String, required: true }
-    },
+    customer_name: { type: String, required: true },
+    customer_email: { type: String, required: true },
     billing_address: {
       first_name: { type: String, required: true },
       last_name: { type: String, required: true },
@@ -30,11 +28,11 @@ const orderSchema = new mongoose.Schema({
       state: { type: String, required: true }
     },
     items: [{
+      product_id: { type: Number, required: true },
       product_name: { type: String, required: true },
       quantity: { type: Number, required: true },
       subtotal: { type: Number, required: true },
       total: { type: Number, required: true },
-      sku: { type: String }
     }],
     store_name: { type: String, required: true },
     store_url: { type: String, required: true }
