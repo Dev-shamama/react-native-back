@@ -2,43 +2,43 @@ const mongoose = require('mongoose');
 
 // Define a single schema for the order with embedded sub-schemas
 const orderSchema = new mongoose.Schema({
-  order_id: { type: Number, required: true, unique: true },
-  total: { type: Number, required: true },
-  status: { type: String, required: true },
-  date: { type: Date, required: true },
+  order_id: { type: Number },
+  total: { type: Number },
+  status: { type: String },
+  date: { type: Date },
   customer: {
-    name: { type: String, required: true },
-    email: { type: String, required: true }
+    name: { type: String },
+    email: { type: String }
   },
   billing_address: {
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    address_1: { type: String, required: true },
+    first_name: { type: String },
+    last_name: { type: String },
+    address_1: { type: String },
     address_2: { type: String },
-    city: { type: String, required: true },
-    postcode: { type: String, required: true },
-    country: { type: String, required: true },
-    state: { type: String, required: true }
+    city: { type: String },
+    postcode: { type: String },
+    country: { type: String },
+    state: { type: String }
   },
   shipping_address: {
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    address_1: { type: String, required: true },
+    first_name: { type: String },
+    last_name: { type: String },
+    address_1: { type: String },
     address_2: { type: String },
-    city: { type: String, required: true },
-    postcode: { type: String, required: true },
-    country: { type: String, required: true },
-    state: { type: String, required: true }
+    city: { type: String },
+    postcode: { type: String },
+    country: { type: String },
+    state: { type: String }
   },
   items: [{
-    product_name: { type: String, required: true },
-    quantity: { type: Number, required: true },
-    subtotal: { type: Number, required: true },
-    total: { type: Number, required: true },
+    product_name: { type: String },
+    quantity: { type: Number },
+    subtotal: { type: Number },
+    total: { type: Number },
     sku: { type: String }
   }],
-  store_name: { type: String, required: true },
-  store_url: { type: String, required: true }
+  store_name: { type: String },
+  store_url: { type: String }
 });
 
 // Create the model from the combined schema
